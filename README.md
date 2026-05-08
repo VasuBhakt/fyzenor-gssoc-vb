@@ -401,6 +401,9 @@ Contributions are welcome.
 4. Test locally.
 5. Open a pull request with a clear description.
 
+For detailed contribution workflow, see [CONTRIBUTING.md](CONTRIBUTING.md).
+Community participation is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
 ---
 
 ## 📞 Contact
