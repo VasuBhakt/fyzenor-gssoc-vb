@@ -1083,6 +1083,7 @@ public:
     (void)res;
     setStatus("Copied path");
   }
+
   void handleDelete() {
     if (currentFiles.empty())
       return;
@@ -1358,6 +1359,54 @@ public:
     }
     wrefresh(winCurrent);
   }
+
+  void drawHelpOverlay() {
+    int h = 20;
+    int w = 60;
+
+    int startY = (height - h) / 2;
+    int startX = (width - w) / 2;
+
+    WINDOW* helpWin = newwin(h, w, startY, startX);
+
+    wattron(helpWin, COLOR_PAIR(6) | A_BOLD);
+    drawRoundedBox(helpWin);
+    wattroff(helpWin, COLOR_PAIR(6) | A_BOLD);
+
+    wattron(helpWin, COLOR_PAIR(1) | A_BOLD);
+    mvwprintw(helpWin, 1, 2, "󰘳 Fyzenor Keybindings");
+    wattroff(helpWin, COLOR_PAIR(1) | A_BOLD);
+
+    mvwprintw(helpWin, 3, 2, "j / k        → Navigate");
+    mvwprintw(helpWin, 4, 2, "h / l        → Back / Open");
+    mvwprintw(helpWin, 5, 2, "Space / v    → Select");
+    mvwprintw(helpWin, 6, 2, "a            → Select All");
+    mvwprintw(helpWin, 7, 2, "Esc          → Clear Selection");
+    mvwprintw(helpWin, 8, 2, "y            → Copy");
+    mvwprintw(helpWin, 9, 2, "x            → Cut");
+    mvwprintw(helpWin, 10, 2, "p            → Paste");
+    mvwprintw(helpWin, 11, 2, "d            → Delete");
+    mvwprintw(helpWin, 12, 2, "r            → Rename");
+    mvwprintw(helpWin, 13, 2, "n / N        → New File / Folder");
+    mvwprintw(helpWin, 14, 2, "z            → Zip");
+    mvwprintw(helpWin, 15, 2, ".            → Toggle Hidden");
+    mvwprintw(helpWin, 16, 2, "s            → Toggle Sorting");
+    mvwprintw(helpWin, 17, 2, "P            → Pin Directory");
+    mvwprintw(helpWin, 18, 2, "?            → Show Help");
+
+    wattron(helpWin, A_DIM);
+    mvwprintw(helpWin, h - 2, 2, "Press any key to close...");
+    wattroff(helpWin, A_DIM);
+
+    wrefresh(helpWin);
+
+    timeout(-1);
+    getch();
+    timeout(50);
+
+    delwin(helpWin);
+}
+
 
   void drawPreview() {
     if (lastWasDirectRender)
@@ -1748,6 +1797,9 @@ public:
           break;
         case 's':
           toggleSort();
+          break;
+        case '?':
+          drawHelpOverlay();
           break;
         }
       }
